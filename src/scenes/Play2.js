@@ -1,6 +1,6 @@
 class Play2 extends Phaser.Scene {
     constructor() {
-        super("2Scene");
+        super("singlePlayer");
     }
 
     preload() {
@@ -81,7 +81,7 @@ class Play2 extends Phaser.Scene {
             repeat: -1
         });
 
-        bank.play('bank2');
+        bank2.play('bank2');
 
         //play money animation
         this.ship01.play('money2');
@@ -102,7 +102,7 @@ class Play2 extends Phaser.Scene {
             fontSize: '24px',
             backgroundColor: '#FACADE',
             color: '#843605',
-            align: 'right',
+            align: 'center',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -110,7 +110,7 @@ class Play2 extends Phaser.Scene {
             fixedWidth: 60
         }
         
-        this.scoreLeft = this.add.text(220, 44, '$' + this.p1Score, scoreConfig);
+        this.scoreLeft = this.add.text(270, 44, '$' + this.p1Score, scoreConfig);
         //this.scoreRight = this.add.text(320, 44, '$' + this.p2Score, scoreConfig2);
 
         // game over flag
