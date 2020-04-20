@@ -47,10 +47,11 @@ class Play extends Phaser.Scene {
         // add spaceships (x3)
         this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'money', 0, 10, Math.random() * (5-4) + 4).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'money', 0, 10,  Math.random() * (4-3) +3).setOrigin(0,0);
-        this.ship03 = new Spaceship(this, game.config.width, 260, 'coin', 0, 5, Math.random() * (3-1) + 1).setScale(0.8, 0.8).setOrigin(0, 0);
+        this.ship03 = new Spaceship(this, game.config.width, 260, 'coin', 0, 2, Math.random() * (3-2) + 2).setScale(0.8, 0.8).setOrigin(0, 0);
+        this.ship04 = new Spaceship(this, game.config.width+ 30, 320, 'coin', 0, 2, Math.random() * (3-2) + 2).setScale(0.8, 0.8).setOrigin(0, 0);
 
         // define keys
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -96,6 +97,7 @@ class Play extends Phaser.Scene {
         this.ship01.play('money');
         this.ship02.play('money');
         this.ship03.play('coin');
+        this.ship04.play('coin');
         
 
         
@@ -139,7 +141,8 @@ class Play extends Phaser.Scene {
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER: Press UP to restart', scoreConfig).setOrigin(0.5);
+            
             if(this.p1Score == this.p2Score){
             this.add.text(game.config.width/2, game.config.height/2 + 64, "It's a Tie!", scoreConfig).setOrigin(0.5);
             }
@@ -147,7 +150,7 @@ class Play extends Phaser.Scene {
                     this.add.text(game.config.width/2, game.config.height/2 + 64, 'Pink Wins!', scoreConfig).setOrigin(0.5);
                     
             }
-            else if(this.p1Score > this.p2Score){
+            else if(this.p1Score < this.p2Score){
                 this.add.text(game.config.width/2, game.config.height/2 + 64, 'Red Wins!', scoreConfig).setOrigin(0.5);
                 
             }
@@ -159,8 +162,9 @@ class Play extends Phaser.Scene {
 
     update() {
 
+        
         // check key input for restart / menu
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyUP)) {
             this.scene.restart();
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
@@ -174,6 +178,7 @@ class Play extends Phaser.Scene {
             this.ship01.update();           // update spaceships (x3)
             this.ship02.update();
             this.ship03.update();
+            this.ship04.update();
             
         }        
 
@@ -184,6 +189,12 @@ class Play extends Phaser.Scene {
             }*/
       // this.moneyFlap(this.ship01);
         // check collisions
+        if(this.checkCollision(this.p1Rocket, this.ship04)) {
+            this.p1Rocket.reset();
+            this.coinExplode(this.ship04);   
+            this.p1Score += this.ship04.points;
+            this.scoreLeft.text = '$' + this.p1Score;
+        }
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
             this.coinExplode(this.ship03);   
@@ -203,6 +214,12 @@ class Play extends Phaser.Scene {
             this.scoreLeft.text = '$' + this.p1Score;
         }
 
+        if(this.checkCollision(this.p2Rocket, this.ship04)) {
+            this.p2Rocket.reset();
+            this.coinExplode(this.ship04);
+            this.p2Score += this.ship04.points;
+            this.scoreRight.text = '$' + this.p2Score;   
+        }
         if(this.checkCollision(this.p2Rocket, this.ship03)) {
             this.p2Rocket.reset();
             this.coinExplode(this.ship03);

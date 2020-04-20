@@ -11,6 +11,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
         this.load.audio('money', './assets/money.wav');
         this.load.audio('coin', './assets/coin.wav');
+        this.load.audio('hop', './assets/hop.wav');
 
         //Load menu screen
         this.load.spritesheet('menu', './assets/menu.png', {frameWidth: 640, frameHeight: 480, startFrame: 0, endFrame: 8});
@@ -24,10 +25,10 @@ class Menu extends Phaser.Scene {
 
         // menu display
         let menuConfig = {
-            fontFamily: 'Arial',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
+            fontFamily: 'Impact',
+            fontSize: '24px',
+            //backgroundColor: '#F3B141',
+            color: '#ffff19',
             align: 'right',
             padding: {
                 top: 5,
@@ -35,17 +36,40 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
+        let menuConfig2 = {
+            fontFamily: 'Arial',
+            fontSize: '18px',
+            //backgroundColor: '#F3B141',
+            color: '#ffff19',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+        let menuConfig3 = {
+            fontFamily: 'Arial',
+            fontSize: '20px',
+            backgroundColor: '#FACADE',
+            color: '#FA23DE',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+
 
         // show menu text
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY- textSpacer, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use ←→ arrows to move & (F) to Fire', menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#00FF00';
-        menuConfig.color = '#000';
-        this.add.text(centerX, centerY + textSpacer, 'Press ← for One player or → for Two Player', menuConfig).setOrigin(0.5);  
+        this.add.text(centerX-10, centerY- textSpacer, 'B a n k     H e i s t', menuConfig).setOrigin(0.5);
+        this.add.text(centerX - 10, centerY, '  P1: Use ←→ arrows to move & (UP) to Fire \nP2: Use A & D to move and SPACE to Fire', menuConfig2).setOrigin(0.5);
+        this.add.text(centerX-10, centerY + textSpacer, 'Press ← To Heist Alone or → To Compete with a Friend', menuConfig3).setOrigin(0.5);  
         
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);

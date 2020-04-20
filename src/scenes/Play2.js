@@ -5,16 +5,17 @@ class Play2 extends Phaser.Scene {
 
     preload() {
         // load images/tile sprites
-        this.load.image('piggy2', './assets/piggybank.png');
-        //this.load.image('piggy2', './assets/piggybank2.png');
+        this.load.image('piggy', './assets/piggybank.png');
+        
         //this.load.image('money', './assets/money.gif');
        // this.load.image('bank', './assets/bank.png');
         
         // load spritesheet
-        this.load.spritesheet('money2', './assets/money.png', {frameWidth: 61, frameHeight: 39, startFrame: 0, endFrame: 9});
-        this.load.spritesheet('explosion2', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.spritesheet('bank2', './assets/Backbank.png',  {frameWidth: 640, frameHeight: 480, startFrame: 0, endFrame: 3});
-        this.load.spritesheet('coin2', './assets/Coin.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('money', './assets/money.png', {frameWidth: 61, frameHeight: 39, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('bank', './assets/Backbank.png',  {frameWidth: 640, frameHeight: 480, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('coin', './assets/Coin.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 5}); 
+        this.load.spritesheet('sparkle', './assets/sparkle.png', {frameWidth: 50, frameHeight: 50, startFrame: 0, endFrame: 7}); 
     }
 
     create() { 
@@ -32,61 +33,69 @@ class Play2 extends Phaser.Scene {
         */
 
         //const money = this.add.sprite(200, 200, 'money', 0);
-        const bank2 = this.add.sprite(0, 0, 'bank2', 0).setOrigin(0, 0);
+        const bank = this.add.sprite(0, 0, 'bank', 0).setOrigin(0, 0);
         
      
 
         // add rocket (p1)
-        this.p1Rocket = new Rocket(this, game.config.width/2 - 8, 431, 'piggy2').setScale(1, 1).setOrigin(0, 0);
+        this.p1Rocket = new Rocket(this, game.config.width/2 - 8, 431, 'piggy').setScale(1, 1).setOrigin(0, 0);
     
-        //this.p2Rocket = new Rocket2(this, game.config.width/2 + 8, 431, 'piggy2').setScale(1, 1).setOrigin(0, 0);
+       
     
        
 
         // add spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'money2', 0, 10, Math.random() * (5-4) + 4).setOrigin(0,0);
-        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'money2', 0, 10,  Math.random() * (4-3) +3).setOrigin(0,0);
-        this.ship03 = new Spaceship(this, game.config.width, 260, 'coin2', 0, 5, Math.random() * (3-1) + 1).setScale(0.8, 0.8);
+        this.ship01 = new Spaceship(this, game.config.width + 192, 132, 'money', 0, 10, Math.random() * (5-4) + 4).setOrigin(0,0);
+        this.ship02 = new Spaceship(this, game.config.width + 96, 196, 'money', 0, 10,  Math.random() * (4-3) +3).setOrigin(0,0);
+        this.ship03 = new Spaceship(this, game.config.width, 260, 'coin', 0, 2, Math.random() * (3-2) + 2).setScale(0.8, 0.8).setOrigin(0, 0);
+        this.ship04 = new Spaceship(this, game.config.width+ 30, 320, 'coin', 0, 2, Math.random() * (3-2) + 2).setScale(0.8, 0.8).setOrigin(0, 0);
 
         // define keys
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
        
 
         // animation config
         this.anims.create({
-            key: 'explode2',
-            frames: this.anims.generateFrameNumbers('explosion2', { start: 0, end: 9, first: 0}),
+            key: 'explode',
+            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
             frameRate: 30
         });
         
         this.anims.create({
-            key: 'money2',
-            frames: this.anims.generateFrameNumbers('money2', {start: 0, end: 7, first: 0}),
+            key: 'money',
+            frames: this.anims.generateFrameNumbers('money', {start: 0, end: 7, first: 0}),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
-            key: 'bank2',
-            frames: this.anims.generateFrameNumbers('bank2', {start: 0, end: 3, first: 0}),
+            key: 'sparkle',
+            frames: this.anims.generateFrameNumbers('sparkle', {start: 0, end: 7, first: 0}),
+            frameRate: 25,
+        });
+
+        this.anims.create({
+            key: 'bank',
+            frames: this.anims.generateFrameNumbers('bank', {start: 0, end: 3, first: 0}),
             frameRate: 5,
             repeat: -1
         });
         this.anims.create({
-            key: 'coin2',
-            frames: this.anims.generateFrameNumbers('coin2', {start: 0, end: 5, first: 0}),
+            key: 'coin',
+            frames: this.anims.generateFrameNumbers('coin', {start: 0, end: 5, first: 0}),
             frameRate: 10,
             repeat: -1
         });
 
-        bank2.play('bank2');
+        bank.play('bank');
 
         //play money animation
-        this.ship01.play('money2');
-        this.ship02.play('money2');
-        this.ship03.play('coin2');
+        this.ship01.play('money');
+        this.ship02.play('money');
+        this.ship03.play('coin');
+        this.ship04.play('coin');
         
 
         
@@ -94,7 +103,7 @@ class Play2 extends Phaser.Scene {
 
         // player 1 score
         this.p1Score = 0;
-       // this.p2Score = 0;
+        
 
         // score display
         let scoreConfig = {
@@ -111,7 +120,7 @@ class Play2 extends Phaser.Scene {
         }
         
         this.scoreLeft = this.add.text(270, 44, '$' + this.p1Score, scoreConfig);
-        //this.scoreRight = this.add.text(320, 44, '$' + this.p2Score, scoreConfig2);
+        
 
         // game over flag
         this.gameOver = false;
@@ -119,12 +128,10 @@ class Play2 extends Phaser.Scene {
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            
-            this.add.text(game.config.width/2, game.config.height/2 + 64, "Press F to Restart", scoreConfig).setOrigin(0.5);
-            
-
             this.gameOver = true;
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, "Press UP to restart!", scoreConfig).setOrigin(0.5);
+           
         }, null, this);
     }
 
@@ -134,7 +141,7 @@ class Play2 extends Phaser.Scene {
 
         
         // check key input for restart / menu
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyUP)) {
             this.scene.restart();
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
@@ -144,10 +151,10 @@ class Play2 extends Phaser.Scene {
        // this.bank.tilePositionX -= 4;  // scroll tile sprite
         if (!this.gameOver) {               
             this.p1Rocket.update();         // update rocket sprite
-           // this.p2Rocket.update();
             this.ship01.update();           // update spaceships (x3)
             this.ship02.update();
             this.ship03.update();
+            this.ship04.update();
             
         }        
 
@@ -158,9 +165,15 @@ class Play2 extends Phaser.Scene {
             }*/
       // this.moneyFlap(this.ship01);
         // check collisions
+        if(this.checkCollision(this.p1Rocket, this.ship04)) {
+            this.p1Rocket.reset();
+            this.coinExplode(this.ship04);   
+            this.p1Score += this.ship04.points;
+            this.scoreLeft.text = '$' + this.p1Score;
+        }
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
-            this.shipExplode(this.ship03);   
+            this.coinExplode(this.ship03);   
             this.p1Score += this.ship03.points;
             this.scoreLeft.text = '$' + this.p1Score;
         }
@@ -177,7 +190,6 @@ class Play2 extends Phaser.Scene {
             this.scoreLeft.text = '$' + this.p1Score;
         }
 
-        
     }
 
     checkCollision(rocket, ship) {
@@ -196,8 +208,8 @@ class Play2 extends Phaser.Scene {
     shipExplode(ship) {
         ship.alpha = 0;                         // temporarily hide ship
         // create explosion sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion2').setOrigin(0, 0);
-        boom.anims.play('explode2');            // play explode animation
+        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+        boom.anims.play('explode');            // play explode animation
         boom.on('animationcomplete', () => {    // callback after animation completes
             ship.reset();                     // reset ship position
             ship.alpha = 1;                   // make ship visible again
@@ -208,9 +220,35 @@ class Play2 extends Phaser.Scene {
           
 
         // play sound
-        this.sound.play('sfx_explosion');  
+        this.sound.play('money');  
+    }
+    coinExplode(ship) {
+        ship.alpha = 0;                         // temporarily hide ship
+        // create explosion sprite at ship's position
+        let boom = this.add.sprite(ship.x, ship.y, 'sparkle').setOrigin(0, 0);
+        boom.anims.play('sparkle');            // play explode animation
+        boom.on('animationcomplete', () => {    // callback after animation completes
+            ship.reset();                     // reset ship position
+            ship.alpha = 1;                   // make ship visible again
+            boom.destroy();                   // remove explosion sprite
+        });
+
+        // score increment and repaint
+          
+
+        // play sound
+        this.sound.play('coin');  
     }
 
-    
-    
+    moneyFlap(ship) {
+        ship.alpha = 0;                         // temporarily hide ship
+        // create explosion sprite at ship's position
+        let flap = this.add.sprite(ship.x, ship.y, 'money').setOrigin(0, 0);
+        flap.anims.play('money');            // play explode animation
+        flap.on('animationcomplete', () => {    // callback after animation completes
+                              // reset ship position
+            ship.alpha = 1;                   // make ship visible again
+                              // remove explosion sprite
+        });
+    }
 }
