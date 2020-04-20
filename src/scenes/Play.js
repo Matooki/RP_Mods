@@ -57,6 +57,7 @@ class Play extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
         // animation config
         this.anims.create({
@@ -113,7 +114,7 @@ class Play extends Phaser.Scene {
             fontSize: '24px',
             backgroundColor: '#FACADE',
             color: '#843605',
-            align: 'right',
+            align: 'center',
             padding: {
                 top: 5,
                 bottom: 5,
@@ -138,10 +139,12 @@ class Play extends Phaser.Scene {
         // game over flag
         this.gameOver = false;
 
+        
+
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER: Press UP to restart', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER: Press UP to restart\nPress M to return to Menu', scoreConfig).setOrigin(0.5);
             
             if(this.p1Score == this.p2Score){
             this.add.text(game.config.width/2, game.config.height/2 + 64, "It's a Tie!", scoreConfig).setOrigin(0.5);
@@ -167,7 +170,7 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyUP)) {
             this.scene.restart();
         }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)) {
             this.scene.start("menuScene");
         }
 
